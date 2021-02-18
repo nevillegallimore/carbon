@@ -2,10 +2,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import invariant from "invariant";
-import StyledWiggle from "./decimal.style";
 import Textbox from "../textbox";
 import I18nHelper from "../../../utils/helpers/i18n";
-import Events from "../../../utils/helpers/events";
 
 class Decimal extends React.Component {
   static maxPrecision = 15;
@@ -24,7 +22,6 @@ class Decimal extends React.Component {
       value,
       visibleValue: this.formatValue(value),
       isControlled,
-      isAnimating: false,
     };
   }
 
@@ -65,14 +62,6 @@ class Decimal extends React.Component {
     }
   }
 
-  startAnimation = () => {
-    if (!this.props.readOnly) {
-      this.setState({ isAnimating: true });
-    }
-  };
-
-  stopAnimation = () => this.setState({ isAnimating: false });
-
   callOnChange = () => {
     if (this.props.onChange) {
       this.props.onChange(this.createEvent());
@@ -89,53 +78,6 @@ class Decimal extends React.Component {
         this.callOnChange();
       }
     );
-  };
-
-  onPaste = (ev) => {
-    const value = this.replace(ev);
-    const isValid = this.isValidDecimal(value);
-    if (!isValid) {
-      ev.preventDefault();
-    }
-  };
-
-  onKeyPress = (ev) => {
-    // We're checking to see if the proposed change is valid, if not we block the user input
-    if (!this.isValidKeyPress(ev)) {
-      ev.preventDefault();
-    }
-    if (this.props.onKeyPress) {
-      this.props.onKeyPress(ev);
-    }
-  };
-
-  isValidKeyPress = (ev) => {
-    const { delimiter, separator } = I18nHelper.format();
-
-    if (
-      Events.isNumberKey(ev) ||
-      ev.key === delimiter ||
-      ev.key === separator ||
-      Events.isDeletingKey(ev)
-    ) {
-      return this.isValidDecimal(this.replace(ev));
-    }
-
-    if (ev.ctrlKey || ev.metaKey) {
-      // user is doing some browser related task, we don't want to interfere with that.
-      // Command is metaKey in Safari, but ctrlKey in all other browsers
-      // Windows key is metaKey also
-      // we do want to check paste, we do that onPaste
-      return true;
-    }
-
-    if (Events.isMinusKey(ev) && ev.target.selectionStart === 0) {
-      // user is entering a negative symbol at the start of the number
-      return true;
-    }
-
-    this.startAnimation();
-    return false;
   };
 
   onBlur = () => {
@@ -192,24 +134,6 @@ class Decimal extends React.Component {
     return Number.isNaN(Number(value));
   };
 
-  /**
-   * Validate the user input
-   */
-  isValidDecimal = (value) => {
-    const { precision } = this.props;
-    const format = I18nHelper.format();
-    const delimiter = `\\${format.delimiter}`;
-    const separator = `\\${format.separator}`;
-    const validDecimalMatcher = new RegExp(
-      `^[-]?[\\d${delimiter}]*[${separator}]?\\d{0,${precision}}?$`
-    );
-    const isValid = validDecimalMatcher.test(value);
-    if (!isValid) {
-      this.startAnimation();
-    }
-    return isValid;
-  };
-
   getSafeValueProp = (isInitialValue) => {
     const { value, allowEmptyValue } = this.props;
     // We're intentionally preventing the use of number values to help prevent any unintentional rounding issues
@@ -230,17 +154,6 @@ class Decimal extends React.Component {
   getSafePrecisionProp = () => {
     const { precision } = this.props;
 
-    const lessThanOrEqual = precision <= Decimal.maxPrecision;
-    const positive = precision >= 0;
-    const isNumber = Number.isInteger(precision);
-    invariant(isNumber, "Decimal `precision` prop should be a number");
-    invariant(
-      lessThanOrEqual,
-      "Decimal `precision` prop cannot be greater than %s",
-      Decimal.maxPrecision
-    );
-    invariant(positive, "Decimal `precision` prop cannot be negative");
-
     return precision;
   };
 
@@ -256,40 +169,15 @@ class Decimal extends React.Component {
    * Format a user defined value
    */
   formatValue = (value) => {
-    invariant(
-      !this.isNaN(value),
-      `The supplied decimal (${value}) is not a number`
-    );
+    if (this.isNaN(value)) {
+      return this.state.value;
+    }
+
     if (value === "") {
       return value;
     }
+
     return I18nHelper.formatDecimal(value, this.getSafePrecisionProp());
-  };
-
-  /**
-   * Perform a string replacement on the input so we can see what the value will be after the change
-   * This allows us to prevent the user input if it is invalid
-   */
-  replace = (ev) => {
-    const {
-      target: { selectionStart, selectionEnd, value },
-      clipboardData,
-      type,
-    } = ev;
-    let { key: change } = ev;
-
-    if (type === "paste") {
-      change = clipboardData.getData("text/plain");
-    }
-
-    if (Events.isDeletingKey(ev)) {
-      change = "";
-    }
-    return (
-      value.substring(0, selectionStart) +
-      change +
-      value.substring(selectionEnd)
-    );
   };
 
   /**
@@ -304,15 +192,10 @@ class Decimal extends React.Component {
   render() {
     const { name, defaultValue, ...rest } = this.props;
     return (
-      <StyledWiggle
-        isAnimating={this.state.isAnimating}
-        onAnimationEnd={this.stopAnimation}
-      >
+      <>
         <Textbox
           {...rest}
-          onKeyPress={this.onKeyPress}
           onChange={this.onChange}
-          onPaste={this.onPaste}
           onBlur={this.onBlur}
           value={this.state.visibleValue}
           data-component="decimal"
@@ -323,7 +206,7 @@ class Decimal extends React.Component {
           type="hidden"
           data-component="hidden-input"
         />
-      </StyledWiggle>
+      </>
     );
   }
 }

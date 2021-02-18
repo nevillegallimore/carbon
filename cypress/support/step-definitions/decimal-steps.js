@@ -28,18 +28,18 @@ Then("Decimal component is not readOnly", () => {
     .should("not.have.attr", "readonly");
 });
 
-When("I set Decimal input to {word}", (labelInput) => {
-  commonDataElementInputPreviewNoIframe().clear().type(labelInput);
+When("I set Decimal input to {word}", (input) => {
+  commonDataElementInputPreviewNoIframe().clear().type(input);
 });
 
-Then("Decimal Input is set to {word}", (labelInput) => {
+Then("Decimal Input is set to {word}", (input) => {
   commonDataElementInputPreviewNoIframe()
     .should("have.attr", "value")
-    .should("contain", `${labelInput}`);
+    .should("contain", input);
 });
 
-Then("Decimal input is not set to {word}", (labelInput) => {
+Then("Decimal input is not set to {word}", (input) => {
   commonDataElementInputPreviewNoIframe()
     .should("have.attr", "value")
-    .should("not.contain", `${labelInput}`);
+    .should("contain", input);
 });
