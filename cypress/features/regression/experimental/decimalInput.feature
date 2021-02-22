@@ -33,7 +33,7 @@ Feature: Decimal input component
   Scenario Outline: Check Decimal component input field will accept characters to <input>
     Given I open "Experimental Decimal Input Test" component page "default" in no iframe
     When I set Decimal input to <input>
-    Then Decimal input is not set to <input>
+    Then Decimal input is set to <input>
     Examples:
       | input                       |
       | mpú¿¡üßä                    |

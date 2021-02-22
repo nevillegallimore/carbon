@@ -38,7 +38,7 @@ Then("Decimal Input is set to {word}", (input) => {
     .should("contain", input);
 });
 
-Then("Decimal input is not set to {word}", (input) => {
+Then("Decimal input is set to {word}", (input) => {
   commonDataElementInputPreviewNoIframe()
     .should("have.attr", "value")
     .should("contain", input);
