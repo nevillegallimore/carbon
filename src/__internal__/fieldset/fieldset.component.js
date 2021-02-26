@@ -21,23 +21,15 @@ const Fieldset = ({
   info,
   ml,
   mb,
-  styleOverride,
   isRequired,
   ...rest
 }) => (
   <InputGroupBehaviour>
-    <StyledFieldset
-      data-component="fieldset"
-      styleOverride={styleOverride.root}
-      ml={ml}
-      mb={mb}
-      {...rest}
-    >
+    <StyledFieldset data-component="fieldset" ml={ml} mb={mb} {...rest}>
       <StyledFieldsetContent inline={inline}>
         {legend && (
           <StyledLegendContainer
             inline={inline}
-            styleOverride={styleOverride.legend}
             width={legendWidth}
             align={legendAlign}
             rightPadding={legendSpacing}
@@ -88,18 +80,12 @@ Fieldset.propTypes = {
   ml: PropTypes.string,
   /** Margin bottom, given number will be multiplied by base spacing unit (8) */
   mb: PropTypes.oneOf([0, 1, 2, 3, 4, 5, 6, 7]),
-  /** Allows to override existing component styles */
-  styleOverride: PropTypes.shape({
-    root: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    legend: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  }),
   /** If true, an asterisk will be added to the label */
   isRequired: PropTypes.bool,
 };
 
 Fieldset.defaultProps = {
   inline: false,
-  styleOverride: {},
 };
 
 export default Fieldset;

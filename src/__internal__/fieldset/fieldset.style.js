@@ -12,7 +12,6 @@ const StyledFieldset = styled.fieldset`
 
     ${ml && `margin-left: ${ml};`}
     ${mb && `margin-bottom: ${mb * theme.spacing}px;`}
-    ${({ styleOverride }) => styleOverride};
   `}
 `;
 
@@ -56,8 +55,6 @@ const StyledLegendContainer = styled.div`
         margin-left: ${theme.spacing}px;
       }
     `}
-
-  ${({ styleOverride }) => styleOverride};
 `;
 
 StyledLegendContainer.defaultProps = {

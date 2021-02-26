@@ -12,8 +12,6 @@ export interface AnchorNavigationItemProps {
   tabIndex?: number;
   /** Indicates if component is selected */
   isSelected?: boolean;
-  /** Allows to override existing component styles */
-  styleOverride?: () => object | object;
   /** Reference to the section html element meant to be shown   */
   target?: React.RefObject<HTMLElement>;
 }

@@ -21,7 +21,6 @@ export interface LabelPropTypes {
   inline?: boolean;
   /** Text alignment of label */
   align?: 'left' | 'right';
-  styleOverride?: () => object | object;
 }
 
 declare const Label: React.FunctionComponent<LabelPropTypes>;

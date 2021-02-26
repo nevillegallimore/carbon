@@ -15,14 +15,6 @@ export interface AccordionProps extends SpacingProps {
   iconType?: 'chevron_down' | 'dropdown';
   /** Sets icon alignment - accepted values: 'left', 'right' (default) */
   iconAlign?: AlignBinaryType;
-  /** Allows to override existing component styles */
-  styleOverride?: {
-   root?: () => object | object;
-   headerArea?: () => object | object;
-   icon?: () => object | object;
-   header?: () => object | object;
-   content?: () => object | object;
-  };
   /** Callback fired when expansion state changes, onChange(event: object, isExpanded: boolean) */
   onChange?: (event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, isExpanded: boolean) => void;
   /** Sets accordion type to either primary (default), or secondary */

@@ -42,12 +42,6 @@ export interface RadioButtonGroupProps extends MarginSpacingProps {
   adaptiveLegendBreakpoint?: number;
   /** Breakpoint for adaptive spacing (left margin changes to 0). Enables the adaptive behaviour when set */
   adaptiveSpacingBreakpoint?: number;
-  /** Allows to override existing component styles */
-  styleOverride?: {
-    root?: object;
-    content?: object;
-    legend?: object;
-  };
   /** Flag to configure component as mandatory */
   required?: boolean;
 }

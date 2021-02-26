@@ -7,28 +7,13 @@ import {
   LegendContainerStyle,
   FieldsetContentStyle,
 } from "./fieldset.style";
-import Logger from "../../../utils/logger/logger";
-
-let deprecatedWarnTriggered = false;
 
 const Fieldset = (props) => {
-  if (!deprecatedWarnTriggered) {
-    deprecatedWarnTriggered = true;
-    // eslint-disable-next-line max-len
-    Logger.deprecate(
-      "`styleOverride` that is used in the `Fieldset` component is deprecated and will soon be removed."
-    );
-  }
-
   const legend = () => {
     if (!props.legend) return null;
 
     return (
-      <LegendContainerStyle
-        inline={props.inline}
-        data-component="legend-style"
-        styleOverride={props.styleOverride.legend}
-      >
+      <LegendContainerStyle inline={props.inline} data-component="legend-style">
         <legend data-element="legend">{props.legend}</legend>
       </LegendContainerStyle>
     );
@@ -40,11 +25,7 @@ const Fieldset = (props) => {
   });
 
   return (
-    <FieldsetStyle
-      {...tagComponent("fieldset", props)}
-      {...safeProps}
-      styleOverride={props.styleOverride.root}
-    >
+    <FieldsetStyle {...tagComponent("fieldset", props)} {...safeProps}>
       <FieldsetContentStyle
         data-component="fieldset-style"
         inline={props.inline}
@@ -63,16 +44,10 @@ Fieldset.propTypes = {
   legend: PropTypes.string,
   /** When true, legend is placed in line with the children */
   inline: PropTypes.bool,
-  /** Allows to override existing component styles */
-  styleOverride: PropTypes.shape({
-    root: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-    legend: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-  }),
 };
 
 Fieldset.defaultProps = {
   inline: false,
-  styleOverride: {},
 };
 
 export default Fieldset;

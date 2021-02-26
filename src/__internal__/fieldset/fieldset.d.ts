@@ -29,11 +29,6 @@ export interface FieldsetProps {
   ml?: string;
   /** Margin bottom, given number will be multiplied by base spacing unit (8) */
   mb?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
-  /** Allows to override existing component styles */
-  styleOverride?: {
-    root?: object;
-    legend?: object;
-  };
   /** If true, an asterisk will be added to the label */
   isRequired?: boolean;
 }

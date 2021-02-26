@@ -18,8 +18,6 @@ const FieldsetStyle = styled.fieldset`
     padding-top: 8px;
     padding-bottom: 8px;
   }
-
-  ${({ styleOverride }) => styleOverride};
 `;
 
 const LegendContainerStyle = styled.div`
@@ -43,8 +41,6 @@ const LegendContainerStyle = styled.div`
   ${ValidationIconStyle} ${StyledIcon}:focus {
     outline: 2px solid #ffb500;
   }
-
-  ${({ styleOverride }) => styleOverride};
 `;
 
 const FieldsetContentStyle = styled.div`
