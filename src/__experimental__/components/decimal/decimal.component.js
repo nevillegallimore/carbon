@@ -84,6 +84,7 @@ class Decimal extends React.Component {
     let shouldCallOnChange = false;
     this.setState(
       ({ value, visibleValue }) => {
+        // originally functionality of Decimal
         if (!visibleValue || visibleValue === "-") {
           shouldCallOnChange = value !== this.defaultValue;
           return {
@@ -202,7 +203,11 @@ class Decimal extends React.Component {
         />
         <input
           name={name}
-          value={this.toStandardDecimal(this.state.visibleValue)}
+          value={
+            this.isNaN(this.toStandardDecimal(this.state.visibleValue))
+              ? null
+              : this.toStandardDecimal(this.state.visibleValue)
+          }
           type="hidden"
           data-component="hidden-input"
         />
@@ -219,7 +224,14 @@ Decimal.propTypes = {
   /**
    * The decimal precision of the value in the input
    */
-  precision: PropTypes.number,
+  precision: (props, propName) => {
+    if (props.precision < 0 || props.precision > Decimal.maxPrecision) {
+      return new Error(
+        "precision prop must be a number greater than 0 or equal to or less than 15."
+      );
+    }
+    return PropTypes.node(props, propName);
+  },
   /**
    * The width of the input as a percentage
    */

@@ -311,7 +311,7 @@ describe("Decimal", () => {
     });
 
     it.each(["0|.00", "0.|00", "0.0|0", "0.00|"])(
-      "prevents the user from typing the negative symbol within the number (%s)",
+      "allows the user to type the negative symbol within the number (%s)",
       (where) => {
         render();
 
@@ -741,7 +741,7 @@ describe("Decimal", () => {
       setProps({ value: "FooBar" });
       blur();
       expect(value()).toBe("FooBar");
-      expect(hiddenValue()).toBe("FooBar");
+      expect(hiddenValue()).toBe(null);
       expect(onBlur).toHaveBeenCalled();
     });
 
