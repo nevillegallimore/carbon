@@ -217,6 +217,16 @@ describe("Decimal", () => {
         expect(hiddenValue()).toBe("12345.654");
       });
 
+      it("triggers an error message if the precision value is greater than 15", () => {
+        jest.spyOn(global.console, "error").mockImplementation(() => {});
+        mount(<Decimal defaultValue="12345.654" precision={16} />);
+        // eslint-disable-next-line no-console
+        expect(console.error).toHaveBeenCalledWith(
+          "Warning: Failed prop type: precision prop must be a number greater than 0 or equal to or less than 15.\n    in Decimal"
+        );
+        global.console.error.mockReset();
+      });
+
       it("allows the user to change the precision", () => {
         render({ defaultValue: "1234.56789", precision: 5 });
 
