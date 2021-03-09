@@ -408,56 +408,74 @@ describe("Decimal", () => {
     );
 
     describe("i18n", () => {
-      beforeAll(() => {
-        I18n.locale = "fr";
-      });
-
-      afterAll(() => {
-        I18n.locale = undefined;
-      });
+      const frenchProps = { locale: "fr", delimiter: " ", separator: "," };
 
       it("has a defaultValue of 0,00", () => {
-        render();
+        render({ ...frenchProps });
         expect(value()).toBe("0,00");
         expect(hiddenValue()).toBe("0.00");
       });
 
       it("allows the defaultValue to be defined", () => {
-        render({ defaultValue: "12345.67" });
-        expect(value()).toBe("12.345,67");
+        render({ defaultValue: "12345.67", ...frenchProps });
+        expect(value()).toBe("12 345,67");
         expect(hiddenValue()).toBe("12345.67");
       });
 
       it("formats a value correctly", () => {
-        render();
+        render({ ...frenchProps });
         type("1234576");
         blur();
-        expect(value()).toBe("1.234.576,00");
+        expect(value()).toBe("1 234 576,00");
         expect(hiddenValue()).toBe("1234576.00");
       });
 
       it("formats a value correctly (extra separator)", () => {
-        render();
-        type("1.2.34576,00");
+        render({ ...frenchProps });
+        type("1 2 34576,00");
         blur();
-        expect(value()).toBe("1.234.576,00");
+        expect(value()).toBe("1 234 576,00");
+        expect(hiddenValue()).toBe("1234576.00");
+      });
+
+      it("formats a value correctly (different separator and delimiter)", () => {
+        render({
+          value: "",
+          onBlur: jest.fn(),
+          onChange: (e) => {
+            setProps({ value: e.target.value.rawValue });
+          },
+          allowEmptyValue: true,
+          ...frenchProps,
+        });
+        type("1234576,00");
+        blur();
+        expect(value()).toBe("1 234 576,00");
         expect(hiddenValue()).toBe("1234576.00");
       });
 
       it("renders a negative value", () => {
         render({ defaultValue: "-1234.56" });
-        expect(value()).toBe("-1.234,56");
+        expect(value()).toBe("-1,234.56");
         expect(hiddenValue()).toBe("-1234.56");
       });
 
       it.each([
-        ["0,00", "0.00", {}],
-        ["", "", { allowEmptyValue: true }],
+        ["0,00", "0.00", frenchProps],
+        ["", "", { allowEmptyValue: true, ...frenchProps }],
       ])(
         "entering a negative sign and blurring should revert to the defaultValue (%s)",
         (formattedValue, rawValue, props) => {
           const onBlur = jest.fn();
-          render({ onBlur, defaultValue: "-1234.56", ...props });
+          if (formattedValue === "0,00") {
+            render({
+              onBlur,
+              defaultValue: "-1234.56",
+              ...props,
+            });
+          } else {
+            render({ onBlur, defaultValue: "-1234.56", ...props });
+          }
           type("-");
           blur();
           expect(value()).toBe(formattedValue);
@@ -497,38 +515,55 @@ describe("Decimal", () => {
 
       describe("precision", () => {
         it("has a default precision of 2 (rounding up)", () => {
-          render({ defaultValue: "12345.655" });
-          expect(value()).toBe("12.345,66");
+          render({ defaultValue: "12345.655", ...frenchProps });
+          expect(value()).toBe("12 345,66");
           expect(hiddenValue()).toBe("12345.66");
         });
 
         it("has a default precision of 2 (rounding down)", () => {
-          render({ defaultValue: "12345.654" });
-          expect(value()).toBe("12.345,65");
+          render({ defaultValue: "12345.654", ...frenchProps });
+          expect(value()).toBe("12 345,65");
           expect(hiddenValue()).toBe("12345.65");
         });
 
         it("supports having a bigger precision", () => {
-          render({ defaultValue: "12345.654", precision: 3 });
-          expect(value()).toBe("12.345,654");
+          render({
+            defaultValue: "12345.654",
+            precision: 3,
+            ...frenchProps,
+          });
+          expect(value()).toBe("12 345,654");
           expect(hiddenValue()).toBe("12345.654");
         });
 
-        it("allows the user to change the precision", () => {
-          render({ defaultValue: "1234.56789", precision: 5 });
+        it("throws error when precision is lower then 0", () => {
+          expect(() => {
+            render({
+              defaultValue: "12345.654",
+              precision: -1,
+            });
+          }).toThrowError();
+        });
 
-          expect(value()).toBe("1.234,56789");
+        it("allows the user to change the precision", () => {
+          render({
+            defaultValue: "1234.56789",
+            precision: 5,
+            ...frenchProps,
+          });
+
+          expect(value()).toBe("1 234,56789");
           expect(hiddenValue()).toBe("1234.56789");
 
           setProps({ precision: 4 });
 
-          expect(value()).toBe("1.234,5679");
+          expect(value()).toBe("1 234,5679");
           expect(hiddenValue()).toBe("1234.5679");
           expect(onChange).toHaveBeenCalledWith(
             expect.objectContaining({
               target: {
                 value: {
-                  formattedValue: "1.234,5679",
+                  formattedValue: "1 234,5679",
                   rawValue: "1234.5679",
                 },
               },
@@ -537,36 +572,36 @@ describe("Decimal", () => {
 
           setProps({ precision: 3 });
 
-          expect(value()).toBe("1.234,568");
+          expect(value()).toBe("1 234,568");
           expect(hiddenValue()).toBe("1234.568");
 
           setProps({ precision: 2 });
 
-          expect(value()).toBe("1.234,57");
+          expect(value()).toBe("1 234,57");
           expect(hiddenValue()).toBe("1234.57");
 
           setProps({ precision: 1 });
 
-          expect(value()).toBe("1.234,6");
+          expect(value()).toBe("1 234,6");
           expect(hiddenValue()).toBe("1234.6");
 
           setProps({ precision: 2 });
 
-          expect(value()).toBe("1.234,60");
+          expect(value()).toBe("1 234,60");
           expect(hiddenValue()).toBe("1234.60");
 
           onChange.mockReset();
 
           setProps({ precision: 3 });
 
-          expect(value()).toBe("1.234,600");
+          expect(value()).toBe("1 234,600");
           expect(hiddenValue()).toBe("1234.600");
 
           expect(onChange).toHaveBeenCalledWith(
             expect.objectContaining({
               target: {
                 value: {
-                  formattedValue: "1.234,600",
+                  formattedValue: "1 234,600",
                   rawValue: "1234.600",
                 },
               },
@@ -576,13 +611,13 @@ describe("Decimal", () => {
       });
 
       it("calls onChange when the user enters a value", () => {
-        render();
+        render({ ...frenchProps });
         type("12345,56");
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
               value: {
-                formattedValue: "12.345,56",
+                formattedValue: "12 345,56",
                 rawValue: "12345.56",
               },
             },
@@ -592,14 +627,14 @@ describe("Decimal", () => {
 
       it("calls onBlur when the field loses focus", () => {
         const onBlur = jest.fn();
-        render({ onBlur });
+        render({ onBlur, ...frenchProps });
         type("12345,56");
         blur();
         expect(onBlur).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
               value: {
-                formattedValue: "12.345,56",
+                formattedValue: "12 345,56",
                 rawValue: "12345.56",
               },
             },
@@ -611,54 +646,54 @@ describe("Decimal", () => {
         "allows the user to delete part of the decimal (%s)",
         (key) => {
           it.each([
-            "|1.234,56",
-            "1|.234,56",
-            "1.|234,56",
-            "1.2|34,56",
-            "1.23|4,56",
-            "1.234|,56",
-            "1.234,|56",
-            "1.234,5|6",
-            "1.234,56|",
-            "|1|.234,56",
-            "|1.|234,56",
-            "|1.2|34,56",
-            "|1.23|4,56",
-            "|1.234|,56",
-            "|1.234,|56",
-            "|1.234,5|6",
-            "|1.234,56|",
-            "1|.|234,56",
-            "1|.2|34,56",
-            "1|.23|4,56",
-            "1|.234|,56",
-            "1|.234,|56",
-            "1|.234,5|6",
-            "1|.234,56|",
-            "1.|2|34,56",
-            "1.|23|4,56",
-            "1.|234|,56",
-            "1.|234,|56",
-            "1.|234,5|6",
-            "1.|234,56|",
-            "1.2|3|4,56",
-            "1.2|34|,56",
-            "1.2|34,|56",
-            "1.2|34,5|6",
-            "1.2|34,56|",
-            "1.23|4|,56",
-            "1.23|4,|56",
-            "1.23|4,5|6",
-            "1.23|4,56|",
-            "1.234|,|56",
-            "1.234|,5|6",
-            "1.234|,56|",
-            "1.234,|5|6",
-            "1.234,|56|",
-            "1.234,5|6|",
-            "|1.234,56|",
+            "|1 234,56",
+            "1| 234,56",
+            "1 |234,56",
+            "1 2|34,56",
+            "1 23|4,56",
+            "1 234|,56",
+            "1 234,|56",
+            "1 234,5|6",
+            "1 234,56|",
+            "|1| 234,56",
+            "|1 |234,56",
+            "|1 2|34,56",
+            "|1 23|4,56",
+            "|1 234|,56",
+            "|1 234,|56",
+            "|1 234,5|6",
+            "|1 234,56|",
+            "1| |234,56",
+            "1| 2|34,56",
+            "1| 23|4,56",
+            "1| 234|,56",
+            "1| 234,|56",
+            "1| 234,5|6",
+            "1| 234,56|",
+            "1 |2|34,56",
+            "1 |23|4,56",
+            "1 |234|,56",
+            "1 |234,|56",
+            "1 |234,5|6",
+            "1 |234,56|",
+            "1 2|3|4,56",
+            "1 2|34|,56",
+            "1 2|34,|56",
+            "1 2|34,5|6",
+            "1 2|34,56|",
+            "1 23|4|,56",
+            "1 23|4,|56",
+            "1 23|4,5|6",
+            "1 23|4,56|",
+            "1 234|,|56",
+            "1 234|,5|6",
+            "1 234|,56|",
+            "1 234,|5|6",
+            "1 234,|56|",
+            "1 234,5|6|",
+            "|1 234,56|",
           ])("%s", (where) => {
-            render({ defaultValue: "1234.56" });
+            render({ defaultValue: "1234.56", ...frenchProps });
             const { preventDefault } = press({ key }, where);
             expect(preventDefault).not.toHaveBeenCalled();
           });

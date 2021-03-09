@@ -70,13 +70,13 @@ import Decimal from "carbon-react/lib/__experimental__/components/decimal";
 
 <Preview>
   <Story name="labelAlign">
-     {() => 
-      ['right', 'left'].map((alignment) => (
+    {() =>
+      ["right", "left"].map((alignment) => (
         <Decimal
           label="Decimal"
           labelInline
           inputWidth={50}
-          key={alignment} 
+          key={alignment}
           labelAlign={alignment}
           value="0.01"
         />
@@ -112,7 +112,7 @@ import Decimal from "carbon-react/lib/__experimental__/components/decimal";
 ### With labelInline
 
 <Preview>
-  <Story name="with labelInline" parameters={{ chromatic: { disable: true }}}>
+  <Story name="with labelInline" parameters={{ chromatic: { disable: true } }}>
     <Decimal label="Decimal" value="0.01" labelInline />
   </Story>
 </Preview>
@@ -268,3 +268,27 @@ For more information check our [Validations](?path=/docs/documentation-validatio
 Due to the `Textbox` component being used internally by the `Decimal` component most of the `Textbox` props are appliable to `Decimal`
 
 <Props of={OriginalTextbox} />
+
+### Custom locale
+
+<Preview>
+  <Story name="custom locale">
+    {() => {
+      const [state, setState] = useState("0.01");
+      const setValue = ({ target }) => {
+        setState(target.value.rawValue);
+      };
+      const [statePt, setStatePt] = useState("0.01");
+      const setValuePt = ({ target }) => {
+        setStatePt(target.value.rawValue);
+      };
+      return <>
+        <Decimal label="Decimal - pt locale" value={statePt} onChange={setValuePt} locale="pt" delimiter=" " separator="," />
+        <Decimal label="Decimal - en locale" value={state} onChange={setValue} locale="en"/>
+      </>;
+    }}
+  </Story>
+</Preview>
+
+
+## Props:

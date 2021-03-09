@@ -2,6 +2,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import invariant from "invariant";
+import I18n from "i18n-js";
+
 import Textbox from "../textbox";
 import I18nHelper from "../../../utils/helpers/i18n";
 
@@ -173,6 +175,18 @@ class Decimal extends React.Component {
       return this.state.value;
     }
 
+    const numberFormat = {
+      number: {
+        format: {
+          delimiter: this.props.delimiter,
+          separator: this.props.separator,
+        },
+      },
+    };
+
+    I18n.locale = this.props.locale;
+    I18n.translations[I18n.locale] = numberFormat;
+
     if (value === "") {
       return value;
     }
@@ -273,12 +287,27 @@ Decimal.propTypes = {
   allowEmptyValue: PropTypes.bool,
   /** Flag to configure component as mandatory */
   required: PropTypes.bool,
+  /**
+   * The locale string - default en
+   */
+  locale: PropTypes.string,
+  /**
+   * Delimiter character - default comma
+   */
+  delimiter: PropTypes.string,
+  /**
+   * Separator character - default dot
+   */
+  separator: PropTypes.string,
 };
 
 Decimal.defaultProps = {
   align: "right",
   precision: 2,
   allowEmptyValue: false,
+  locale: "en",
+  delimiter: ",",
+  separator: ".",
 };
 
 export default Decimal;
