@@ -4,25 +4,22 @@ import {
   SizesType,
 } from "../../../utils/helpers/options-helper/options-helper";
 import { MarginSpacingProps } from "../../../utils/helpers/options-helper";
+import { CommonCheckableInputProps } from "../../../__internal__/checkable-input";
 
-export interface RadioButtonProps extends MarginSpacingProps {
-  checked?: boolean;
-  disabled?: boolean;
-  error?: boolean | string;
-  warning?: boolean | string;
-  info?: boolean | string;
-  fieldHelpInline?: boolean;
+export interface RadioButtonProps extends CommonCheckableInputProps, MarginSpacingProps {
+  /** Unique Identifier for the input. Will use a randomly generated GUID if none is provided */
   id?: string;
-  inputWidth?: number | string;
-  label?: string | React.ReactNode;
-  labelAlign?: AlignBinaryType;
-  labelSpacing?: 1 | 2;
-  labelWidth?: number | string;
+  /** When true, sets the component in line (for RadioButtonGroup) */
+  inline?: boolean;
+  /** Text alignment of the label */
+  labelAlign?: "left" | "right";
+  /** The name of the the RadioButton (can also be set via the 'name' prop of the RadioButtonGroup component) */
   name?: string;
-  onChange?: (ev: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (ev: React.SyntheticEvent) => void;
-  reverse?: boolean;
+  /**
+   * Set the size of the radio button to 'small' (16x16 - default) or 'large' (24x24).
+   */
   size?: SizesType;
+  /** the value of the Radio Button, passed on form submit */
   value: string;
 }
 
