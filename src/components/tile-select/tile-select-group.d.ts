@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export interface TileSelectGroupProps {
   /** The TileSelect components to be rendered in the group */

@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { AlignBinaryType } from '../../utils/helpers/options-helper/options-helper';
+import { AlignBinaryType } from "../../utils/helpers/options-helper/options-helper";
 
 export interface PopoverContainerProps {
   /** The element that will open popover-container */

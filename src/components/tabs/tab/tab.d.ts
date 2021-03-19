@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 export interface TabProps {
   title?: string;
@@ -6,7 +6,7 @@ export interface TabProps {
   className?: string;
   children?: React.ReactNode;
   isTabSelected?: boolean;
-  position: 'top' | 'left';
+  position: "top" | "left";
   role?: string;
   ariaLabelledby?: string;
   updateErrors?: () => void;
@@ -15,7 +15,7 @@ export interface TabProps {
   warningMessage?: string;
   infoMessage?: string;
   siblings?: React.ReactNode[];
-  titlePosition?: 'before' | 'after';
+  titlePosition?: "before" | "after";
   href?: string;
 }
 
