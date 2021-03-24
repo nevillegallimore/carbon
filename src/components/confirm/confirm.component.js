@@ -1,14 +1,16 @@
 import React from "react";
-import I18n from "i18n-js";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import Dialog from "../dialog";
 import { StyledConfirmButtons, StyledConfirmHeading } from "./confirm.style";
 import Button from "../button/button.component";
+import LocaleContext from "../../__internal__/i18n-context";
 import Icon from "../icon";
 import Loader from "../loader";
 
 class Confirm extends Dialog {
+  static contextType = LocaleContext;
+
   // ** Returns main classes for the component combined with dialog main classes. */
   get mainClasses() {
     return classNames(super.mainClasses);
@@ -41,7 +43,7 @@ class Confirm extends Dialog {
         destructive={this.props.destructive}
         disabled={this.props.disableCancel}
       >
-        {this.props.cancelLabel || I18n.t("confirm.no", { defaultValue: "No" })}
+        {this.props.cancelLabel || this.context.confirm.no}
       </Button>
     );
   }
@@ -59,8 +61,7 @@ class Confirm extends Dialog {
         {this.props.isLoadingConfirm ? (
           <Loader isInsideButton isActive />
         ) : (
-          this.props.confirmLabel ||
-          I18n.t("confirm.yes", { defaultValue: "Yes" })
+          this.props.confirmLabel || this.context.confirm.yes
         )}
       </Button>
     );

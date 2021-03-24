@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import I18n from "i18n-js";
 import Event from "../../utils/helpers/events/events";
 import tagComponent from "../../utils/helpers/tags/tags";
+import LocaleContext from "../../__internal__/i18n-context";
 import PodContext from "./pod-context";
 
 import {
@@ -26,8 +26,6 @@ class Pod extends React.Component {
     isHovered: false,
     isFocused: false,
   };
-
-  static contextType = PodContext;
 
   toggleCollapse = () => {
     this.setState((prevState) => ({ isCollapsed: !prevState.isCollapsed }));
@@ -135,21 +133,25 @@ class Pod extends React.Component {
         {...this.editEvents()}
         internalEditButton={internalEditButton}
       >
-        <StyledEditAction
-          contentTriggersEdit={triggerEditOnContent}
-          data-element="edit"
-          displayOnlyOnHover={displayEditButtonOnHover}
-          icon="edit"
-          internalEditButton={internalEditButton}
-          isFocused={isFocused}
-          isHovered={isHovered}
-          noBorder={!border}
-          padding={padding}
-          variant={variant}
-          {...this.linkProps()}
-        >
-          {I18n.t("actions.edit", { defaultValue: "Edit" })}
-        </StyledEditAction>
+        <LocaleContext.Consumer>
+          {(l) => (
+            <StyledEditAction
+              contentTriggersEdit={triggerEditOnContent}
+              data-element="edit"
+              displayOnlyOnHover={displayEditButtonOnHover}
+              icon="edit"
+              internalEditButton={internalEditButton}
+              isFocused={isFocused}
+              isHovered={isHovered}
+              noBorder={!border}
+              padding={padding}
+              variant={variant}
+              {...this.linkProps()}
+            >
+              {l.actions.edit}
+            </StyledEditAction>
+          )}
+        </LocaleContext.Consumer>
       </StyledEditContainer>
     );
   }
@@ -223,26 +225,30 @@ class Pod extends React.Component {
         internalEditButton={internalEditButton}
         {...tagComponent("pod", this.props)}
       >
-        <StyledBlock
-          contentTriggersEdit={this.shouldContentHaveEditEvents()}
-          editable={onEdit}
-          fullWidth={editContentFullWidth}
-          internalEditButton={internalEditButton}
-          isFocused={isFocused}
-          isHovered={isHovered}
-          noBorder={!border}
-          variant={variant}
-          height={this.context.heightOfTheLongestPod}
-          {...(this.shouldContentHaveEditEvents()
-            ? { ...this.editEvents(), tabIndex: "0" }
-            : {})}
-        >
-          <StyledContent data-element="content" padding={padding}>
-            {this.podHeader()}
-            {this.podContent()}
-          </StyledContent>
-          {this.footer()}
-        </StyledBlock>
+        <PodContext.Consumer>
+          {({ heightOfTheLongestPod }) => (
+            <StyledBlock
+              contentTriggersEdit={this.shouldContentHaveEditEvents()}
+              editable={onEdit}
+              fullWidth={editContentFullWidth}
+              internalEditButton={internalEditButton}
+              isFocused={isFocused}
+              isHovered={isHovered}
+              noBorder={!border}
+              variant={variant}
+              height={heightOfTheLongestPod}
+              {...(this.shouldContentHaveEditEvents()
+                ? { ...this.editEvents(), tabIndex: "0" }
+                : {})}
+            >
+              <StyledContent data-element="content" padding={padding}>
+                {this.podHeader()}
+                {this.podContent()}
+              </StyledContent>
+              {this.footer()}
+            </StyledBlock>
+          )}
+        </PodContext.Consumer>
         {this.edit()}
       </StyledPod>
     );

@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import I18n from "i18n-js";
 import ReactDOM from "react-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -11,9 +10,12 @@ import StyledDeleteButton from "./delete-button.style";
 import Events from "../../utils/helpers/events";
 import { validProps } from "../../utils/ether";
 import tagComponent from "../../utils/helpers/tags";
+import LocaleContext from "../../__internal__/i18n-context";
 import StyledPod from "./show-edit-pod.style";
 
 class ShowEditPod extends React.Component {
+  static contextType = LocaleContext;
+
   state = {
     editing: false,
   };
@@ -63,9 +65,7 @@ class ShowEditPod extends React.Component {
   };
 
   deleteButton() {
-    const label =
-      this.props.deleteText ||
-      I18n.t("actions.delete", { defaultValue: "Delete" });
+    const label = this.props.deleteText || this.context.actions.delete;
 
     return (
       <StyledDeleteButton

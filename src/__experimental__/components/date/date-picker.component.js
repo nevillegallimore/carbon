@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
-import I18n from "i18n-js";
+import "react-day-picker/lib/style.css";
 import LocaleUtils from "react-day-picker/moment";
 import DayPicker from "react-day-picker";
 
 import Popover from "../../../__internal__/popover";
 import DateHelper from "../../../utils/helpers/date/date";
+import useLocale from "../../../hooks/__internal__/useLocale";
 import Navbar from "./navbar";
 import Weekday from "./weekday";
 import StyledDayPicker from "./day-picker.style";
@@ -20,6 +21,7 @@ const DatePicker = ({
   disablePortal,
   size,
 }) => {
+  const l = useLocale();
   const [lastValidDate, setLastValidDate] = useState(
     DateHelper.formatDateString(new Date().toString())
   );
@@ -73,15 +75,15 @@ const DatePicker = ({
     fixedWeeks: true,
     initialMonth: selectedDate || undefined,
     inline: true,
-    locale: I18n.locale,
+    locale: l.locale,
     localeUtils: LocaleUtils,
     navbarElement: <Navbar />,
     onDayClick: handleDayClick,
     selectedDays: selectedDate || undefined,
     weekdayElement: (weekdayElementProps) => {
       const { className, weekday, localeUtils } = weekdayElementProps;
-      const weekdayLong = localeUtils.formatWeekdayLong(weekday, I18n.locale);
-      const weekdayShort = localeUtils.formatWeekdayShort(weekday, I18n.locale);
+      const weekdayLong = localeUtils.formatWeekdayLong(weekday, l.locale);
+      const weekdayShort = localeUtils.formatWeekdayShort(weekday, l.locale);
 
       return (
         <Weekday className={className} title={weekdayLong}>

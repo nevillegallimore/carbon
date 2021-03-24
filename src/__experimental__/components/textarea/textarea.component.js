@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import I18n from "i18n-js";
+import round from "lodash/round";
 import OptionsHelper from "../../../utils/helpers/options-helper";
 import { InputPresentation } from "../input";
 import FormField from "../form-field";
@@ -12,10 +12,14 @@ import InputIconToggle from "../input-icon-toggle";
 
 import guid from "../../../utils/helpers/guid/guid";
 import StyledTextarea from "./textarea.style";
+import LocaleContext from "../../../__internal__/i18n-context";
 
-const i18nNumberOpts = { precision: 0 };
+const getFormatNumber = (value, locale) =>
+  new Intl.NumberFormat(locale).format(round(value));
 
 class Textarea extends React.Component {
+  static contextType = LocaleContext;
+
   // Minimum height of the textarea
   minHeight = 0;
 
@@ -100,7 +104,6 @@ class Textarea extends React.Component {
   get characterCount() {
     const value = this.props.value || "";
     const { characterLimit, warnOverLimit } = this.props;
-
     if (!characterLimit) {
       return null;
     }
@@ -108,8 +111,8 @@ class Textarea extends React.Component {
     return (
       <CharacterCount
         isOverLimit={this.overLimit && warnOverLimit}
-        value={I18n.toNumber(value.length, i18nNumberOpts)}
-        limit={I18n.toNumber(characterLimit, i18nNumberOpts)}
+        value={getFormatNumber(value.length, this.context.locale)}
+        limit={getFormatNumber(characterLimit, this.context.locale)}
         data-element="character-limit"
       />
     );

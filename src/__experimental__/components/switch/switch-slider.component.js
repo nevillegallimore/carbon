@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import I18n from "i18n-js";
 import Loader from "../../../components/loader/loader.component";
 import StyledSwitchSlider from "./switch-slider.style";
 import SwitchSliderPanel from "./switch-slider-panel.style";
 import ValidationIcon from "../../../components/validations/validation-icon.component";
+import useLocale from "../../../hooks/__internal__/useLocale";
 
 const SwitchSlider = (props) => {
+  const l = useLocale();
   const {
     checked,
     disabled,
@@ -18,10 +19,7 @@ const SwitchSlider = (props) => {
     useValidationIcon,
   } = props;
 
-  const on = I18n.t("switch.on", { defaultValue: "ON" }).toUpperCase();
-  const off = I18n.t("switch.off", { defaultValue: "OFF" }).toUpperCase();
-
-  const panelContent = checked ? on : off;
+  const panelContent = checked ? l.switch.on : l.switch.off;
 
   const switchSliderStyleProps = {
     isLoading: loading,

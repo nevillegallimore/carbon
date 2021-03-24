@@ -25,6 +25,7 @@ import {
   rootTagTest,
 } from "../../utils/helpers/tags/tags-specs/tags-specs";
 import { baseTheme } from "../../style/themes";
+import LocaleContext from "../../__internal__/i18n-context";
 import PodManager from "./pod-manager.component";
 import PodContext from "./pod-context";
 
@@ -33,7 +34,7 @@ describe("Pod", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Pod />);
+    wrapper = mount(<Pod />);
   });
 
   describe("functionality", () => {
@@ -103,7 +104,7 @@ describe("Pod", () => {
     });
 
     it("initializes component as not collapsed when collapsed prop is passed as false", () => {
-      const collapsableWrapper = shallow(
+      const collapsableWrapper = mount(
         <Pod collapsed={false}>
           <ContentComp />
         </Pod>
@@ -115,17 +116,18 @@ describe("Pod", () => {
     });
 
     it("clicking on Header toggles isCollapsed state", () => {
-      const collapsableWrapper = shallow(
+      const collapsableWrapper = mount(
         <Pod collapsed title="Title">
           <ContentComp />
         </Pod>
       );
-      collapsableWrapper.find(StyledHeader).props().onClick();
+
+      collapsableWrapper.find(StyledHeader).simulate("click");
       expect(
         collapsableWrapper.find(StyledCollapsibleContent).exists()
       ).toEqual(true);
       expect(collapsableWrapper.find(ContentComp).exists()).toEqual(true);
-      collapsableWrapper.find(StyledHeader).props().onClick();
+      collapsableWrapper.find(StyledHeader).simulate("click");
       expect(
         collapsableWrapper.find(StyledCollapsibleContent).exists()
       ).toEqual(false);
@@ -383,7 +385,7 @@ describe("Pod", () => {
     });
 
     it("renders all children passed to it", () => {
-      instance = shallow(
+      instance = mount(
         <Pod>
           <Button>Button</Button>
           <Button>Button</Button>
@@ -435,7 +437,12 @@ describe("Pod", () => {
         />
       );
 
-      elementsTagTest(tagWrapper, ["edit", "footer", "subtitle", "title"]);
+      elementsTagTest(tagWrapper.find(LocaleContext.Consumer).dive(), ["edit"]);
+      elementsTagTest(tagWrapper.find(PodContext.Consumer).dive(), [
+        "footer",
+        "subtitle",
+        "title",
+      ]);
     });
   });
 });
