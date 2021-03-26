@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SpacingProps } from "../../../utils/helpers/options-helper";
 
-export interface SelectTextboxProps extends SpacingProps {
+export interface formInputPropTypes extends SpacingProps {
   /** Breakpoint for adaptive label (inline labels change to top aligned). Enables the adaptive behaviour when set */
   adaptiveLabelBreakpoint?: number;
   /** If true the Component will be focused when rendered */
@@ -42,6 +42,21 @@ export interface SelectTextboxProps extends SpacingProps {
   size?: "small" | "medium" | "large";
 }
 
-declare const SelectTextbox: React.ComponentType<SelectTextboxProps>;
+export interface SelectTextboxProps extends formInputPropTypes {
+  /**
+   * @private
+   * @ignore
+   * Value to be displayed in the Textbox
+   */
+  formattedValue: string;
+  /**
+   * @private
+   * @ignore
+   * Value of the Select Input
+   */
+  selectedValue: string | object | string[] | object[];
+}
+
+declare function SelectTextbox(props: SelectTextboxProps): JSX.Element;
 
 export default SelectTextbox;

@@ -23,6 +23,6 @@ export interface RadioButtonProps extends CommonCheckableInputProps, MarginSpaci
   value: string;
 }
 
-declare const RadioButton: React.FunctionComponent<RadioButtonProps>;
+declare function RadioButton(props: RadioButtonProps): JSX.Element;
 
 export { RadioButton };

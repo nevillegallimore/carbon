@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Editor, EditorState, ContentState } from "draft-js";
 
 export interface TextEditorProps {
   characterLimit?: number;
@@ -15,6 +16,10 @@ export interface TextEditorProps {
   rows?: number;
 }
 
-declare const TextEditor: React.FunctionComponent<TextEditorProps>;
+declare function TextEditor(props: TextEditorProps & React.RefAttributes<Editor>): JSX.Element;
 
+export {
+  EditorState as TextEditorState,
+  ContentState as TextEditorContentState,
+};
 export default TextEditor;

@@ -11,6 +11,6 @@ export interface GroupedCharacterProps extends TextboxProps {
 
 }
 
-declare const GroupedCharacter: React.FunctionComponent<GroupedCharacterProps>;
+declare function GroupedCharacter(props: GroupedCharacterProps): JSX.Element;
 
 export default GroupedCharacter;

@@ -41,6 +41,6 @@ export interface FilterableSelectProps extends SelectTextboxProps, SpacingProps 
   value?: string | object;
 }
 
-declare const FilterableSelect: React.ComponentType<FilterableSelectProps>;
+declare function FilterableSelect(props: FilterableSelectProps & React.RefAttributes<HTMLInputElement>): JSX.Element;
 
 export default FilterableSelect;

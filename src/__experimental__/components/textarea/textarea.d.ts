@@ -54,6 +54,7 @@ export interface TextareaProps extends ValidationPropTypes {
   warnOverLimit?: boolean;
 }
 
-declare const Textarea: React.ComponentClass<TextareaProps>;
+declare class Textarea extends React.Component<TextareaProps> {}
 
+export { Textarea as OriginalTextarea };
 export default Textarea;

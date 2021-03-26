@@ -21,6 +21,6 @@ export interface TileSelectGroupProps {
   multiSelect?: boolean;
 }
 
-declare const TileSelectGroup: React.FunctionComponent<TileSelectGroupProps>;
+declare function TileSelectGroup(props: TileSelectGroupProps): JSX.Element;
 
 export { TileSelectGroup };

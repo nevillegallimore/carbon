@@ -1,6 +1,7 @@
 import * as React from "react";
 import ValidationPropTypes from "../../../components/validations";
 import { SpacingProps } from "../../../utils/helpers/options-helper";
+import withUniqueIdProps from "../../../utils/helpers/with-unique-id-props/with-unique-id-props.hoc";
 
 export interface CommonTextboxProps extends ValidationPropTypes {
   /** Breakpoint for adaptive label (inline labels change to top aligned). Enables the adaptive behaviour when set */
@@ -75,6 +76,8 @@ export interface TextboxProps extends CommonTextboxProps, SpacingProps {
   positionedChildren?: React.ReactNode;
 }
 
-declare const Textbox: React.ComponentType<TextboxProps>;
+declare function Textbox(props: TextboxProps): JSX.Element;
+declare function TextboxWithUniqueIdProps(props: TextboxProps & React.RefAttributes<HTMLInputElement>): JSX.Element;
 
-export default Textbox;
+export { Textbox as OriginalTextbox };
+export default TextboxWithUniqueIdProps;

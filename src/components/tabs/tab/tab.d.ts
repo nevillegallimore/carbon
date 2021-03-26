@@ -1,5 +1,11 @@
 import * as React from "react";
 
+export interface TabContextProps {
+  setError: (childId: string, hasError: boolean) => void;
+  setWarning: (childId: string, hasWarning: boolean) => void;
+  setInfo: (childId: string, hasInfo: boolean) => void;
+}
+
 export interface TabProps {
   title?: string;
   tabId: string;
@@ -19,5 +25,8 @@ export interface TabProps {
   href?: string;
 }
 
-declare const Tab: React.ComponentType<TabProps>;
+declare const TabContext: React.Context<TabContextProps>;
+declare function Tab(props: TabProps): JSX.Element;
+
+export { TabContext };
 export default Tab;
