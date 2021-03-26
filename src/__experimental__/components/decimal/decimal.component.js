@@ -223,18 +223,7 @@ Decimal.propTypes = {
   /**
    * The decimal precision of the value in the input
    */
-  precision: (props, propName) => {
-    if (
-      !Number.isInteger(props.precision) ||
-      props.precision < 0 ||
-      props.precision > Decimal.maxPrecision
-    ) {
-      return new Error(
-        "precision prop must be a number greater than 0 or equal to or less than 15."
-      );
-    }
-    return PropTypes.node(props, propName);
-  },
+  precision: PropTypes.number,
   /**
    * The width of the input as a percentage
    */
