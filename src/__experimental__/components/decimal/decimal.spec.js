@@ -108,6 +108,11 @@ describe("Decimal", () => {
     return this.data[dataType];
   };
 
+  const paste = (obj, where) => {
+    const clipboardData = new ClipboardData({ "text/plain": obj.key });
+    return press({ clipboardData }, where, "paste");
+  };
+
   let translations;
 
   beforeAll(() => {
@@ -217,16 +222,6 @@ describe("Decimal", () => {
         expect(hiddenValue()).toBe("12345.654");
       });
 
-      it("triggers an error message if the precision value is greater than 15", () => {
-        jest.spyOn(global.console, "error").mockImplementation(() => {});
-        mount(<Decimal defaultValue="12345.654" precision={16} />);
-        // eslint-disable-next-line no-console
-        expect(console.error).toHaveBeenCalledWith(
-          "Warning: Failed prop type: precision prop must be a number greater than 0 or equal to or less than 15.\n    in Decimal"
-        );
-        global.console.error.mockReset();
-      });
-
       it("allows the user to change the precision", () => {
         render({ defaultValue: "1234.56789", precision: 5 });
 
@@ -314,6 +309,191 @@ describe("Decimal", () => {
             value: {
               formattedValue: "12,345.56",
               rawValue: "12345.56",
+            },
+          },
+        })
+      );
+    });
+
+    it.each([
+      "1a",
+      "1b",
+      "1c",
+      "1d",
+      "1e",
+      "1f",
+      "1g",
+      "1h",
+      "1i",
+      "1j",
+      "1k",
+      "1l",
+      "1m",
+      "1n",
+      "1o",
+      "1p",
+      "1q",
+      "1r",
+      "1s",
+      "1t",
+      "1u",
+      "1v",
+      "1w",
+      "1x",
+      "1y",
+      "1z",
+      "1A",
+      "1B",
+      "1C",
+      "1D",
+      "1E",
+      "1F",
+      "1G",
+      "1H",
+      "1I",
+      "1J",
+      "1K",
+      "1L",
+      "1M",
+      "1N",
+      "1O",
+      "1P",
+      "1Q",
+      "1R",
+      "1S",
+      "1T",
+      "1U",
+      "1V",
+      "1W",
+      "1X",
+      "1Y",
+      "1Z",
+      "1!",
+      '1"',
+      "1£",
+      "1$",
+      "1%",
+      "1^",
+      "1&",
+      "1*",
+      "1(",
+      "1)",
+      "1_",
+      "1+",
+      "1`",
+      "1¬",
+      "1\\",
+      "1|",
+      "1[",
+      "1{",
+      "1]",
+      "1}",
+      "1:",
+      "1;",
+      "1@",
+      "1'",
+      "1~",
+      "1#",
+      "1<",
+      "1>",
+      "1?",
+      "1/",
+      "a1",
+      "b1",
+      "c1",
+      "d1",
+      "e1",
+      "f1",
+      "g1",
+      "h1",
+      "i1",
+      "j1",
+      "k1",
+      "l1",
+      "m1",
+      "n1",
+      "o1",
+      "p1",
+      "q1",
+      "r1",
+      "s1",
+      "t1",
+      "u1",
+      "v1",
+      "w1",
+      "x1",
+      "y1",
+      "z1",
+      "A1",
+      "B1",
+      "C1",
+      "D1",
+      "E1",
+      "F1",
+      "G1",
+      "H1",
+      "I1",
+      "J1",
+      "K1",
+      "L1",
+      "M1",
+      "N1",
+      "O1",
+      "P1",
+      "Q1",
+      "R1",
+      "S1",
+      "T1",
+      "U1",
+      "V1",
+      "W1",
+      "X1",
+      "Y1",
+      "Z1",
+      "!1",
+      '"1',
+      "£1",
+      "$1",
+      "%1",
+      "^1",
+      "&1",
+      "*1",
+      "(1",
+      ")1",
+      "_1",
+      "`1",
+      "¬1",
+      "\\1",
+      "|1",
+      "[1",
+      "{1",
+      "]1",
+      "}1",
+      ":1",
+      ";1",
+      "@1",
+      "'1",
+      "~1",
+      "#1",
+      "<1",
+      ">1",
+      "?1",
+      "/1",
+      "11111a",
+      "a111111",
+      "1111a1111",
+    ])("allows the user to paste (%s)", (key) => {
+      render();
+
+      const { preventDefault } = paste({ key }, "0|.00");
+      expect(preventDefault).not.toHaveBeenCalled();
+      type(key);
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          target: {
+            value: {
+              formattedValue: key,
+              rawValue: key,
             },
           },
         })
