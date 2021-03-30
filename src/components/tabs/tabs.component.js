@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import PropTypes from "prop-types";
+import { createBrowserHistory } from "history";
 import Tab from "./tab";
 import Event from "../../utils/helpers/events/events";
 import tagComponent from "../../utils/helpers/tags/tags";
@@ -29,6 +30,7 @@ const Tabs = ({
   size = "default",
   borders = "off",
   variant = "default",
+  history,
   validationStatusOverride,
   ...rest
 }) => {
@@ -41,6 +43,14 @@ const Tabs = ({
   const [tabsWarnings, setTabsWarnings] = useState({});
   const [tabsInfos, setTabsInfos] = useState({});
   const _window = Browser.getWindow();
+  const isExternalHistory = !!history;
+  let historyAPI;
+
+  if (!isExternalHistory) {
+    historyAPI = createBrowserHistory();
+  } else {
+    historyAPI = history;
+  }
 
   useLayoutEffect(() => {
     if (firstRender.current) {
@@ -107,7 +117,12 @@ const Tabs = ({
     (tabid) => {
       if (setLocation && !sidebarContext) {
         const url = `${_window.location.origin}${_window.location.pathname}#${tabid}`;
-        _window.history.replaceState(null, "change-tab", url);
+
+        if (isExternalHistory) {
+          historyAPI.push(url);
+        } else {
+          historyAPI.replace(url);
+        }
       }
 
       setSelectedTabIdState(tabid);
@@ -365,6 +380,8 @@ const Tabs = ({
 Tabs.propTypes = {
   /** @ignore @private */
   className: PropTypes.string,
+  /** History object for usage with react-router */
+  history: PropTypes.object,
   /** Prevent rendering of hidden tabs, by default this is set to true and therefore all tabs will be rendered */
   renderHiddenTabs: PropTypes.bool,
   /** Allows manual control over the currently selected tab. */

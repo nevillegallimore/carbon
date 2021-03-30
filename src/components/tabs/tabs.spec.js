@@ -661,4 +661,26 @@ describe("Tabs", () => {
       });
     });
   });
+
+  describe("if external history provided", () => {
+    it("should use external history", () => {
+      const historyMock = {
+        push: jest.fn(),
+      };
+      const wrapper = render({ history: historyMock });
+      wrapper.find('[data-element="select-tab"]').at(1).simulate("click");
+      expect(historyMock.push).toHaveBeenCalledWith(
+        "http://localhost/#uniqueid1"
+      );
+    });
+
+    it("should not use history if setLocation set to false", () => {
+      const historyMock = {
+        push: jest.fn(),
+      };
+      const wrapper = render({ history: historyMock, setLocation: false });
+      wrapper.find('[data-element="select-tab"]').at(1).simulate("click");
+      expect(historyMock.push).not.toHaveBeenCalled();
+    });
+  });
 });
