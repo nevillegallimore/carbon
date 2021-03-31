@@ -200,9 +200,6 @@ import {
 
 ### Default icon
 
-Menus with icons only must have a supplied keyboard shortcut. If no shortcut is supplied the menu item text is navigable by the first letter of each item.
-The menu must have focus for this to work
-
 <Preview>
   <Story name="default icon">
     <div style={{ minHeight: "250px" }}>
@@ -210,30 +207,15 @@ The menu must have focus for this to work
         <MenuItem icon="home" href="#">
           Home
         </MenuItem>
-        <MenuItem
-          icon="person"
-          href="#"
-          keyboardOverride="a"
-          ariaLabel="Account"
-        />
+        <MenuItem icon="person" href="#" ariaLabel="Account" />
         <MenuItem icon="settings" submenu="Settings">
           <MenuItem href="#">Item Submenu One</MenuItem>
           <MenuItem href="#">Item Submenu Two</MenuItem>
           <MenuDivider />
-          <MenuItem
-            icon="settings"
-            href="#"
-            ariaLabel="settings"
-            keyboardOverride="s"
-          />
+          <MenuItem icon="settings" href="#" ariaLabel="settings" />
           <MenuItem href="#">Item Submenu Four</MenuItem>
         </MenuItem>
-        <MenuItem
-          icon="arrow_right"
-          submenu
-          keyboardOverride="a"
-          ariaLabel="Actions"
-        >
+        <MenuItem icon="arrow_right" submenu ariaLabel="Actions">
           <MenuItem href="#">Item Submenu One</MenuItem>
           <MenuItem href="#">Item Submenu Two</MenuItem>
         </MenuItem>
@@ -393,9 +375,6 @@ is rendered.
 
 ### Dark icon
 
-Menus with icons only must have a supplied keyboard shortcut. If no shortcut is supplied the menu item text is navigable by the first letter of each item.
-The menu must have focus for this to work
-
 <Preview>
   <Story name="dark icon">
     <div style={{ minHeight: "250px" }}>
@@ -403,30 +382,15 @@ The menu must have focus for this to work
         <MenuItem icon="home" href="#">
           Home
         </MenuItem>
-        <MenuItem
-          icon="person"
-          href="#"
-          keyboardOverride="a"
-          ariaLabel="Account"
-        />
+        <MenuItem icon="person" href="#" ariaLabel="Account" />
         <MenuItem icon="settings" submenu="Settings">
           <MenuItem href="#">Item Submenu One</MenuItem>
           <MenuItem href="#">Item Submenu Two</MenuItem>
           <MenuDivider />
-          <MenuItem
-            icon="settings"
-            href="#"
-            ariaLabel="settings"
-            keyboardOverride="s"
-          />
+          <MenuItem icon="settings" href="#" ariaLabel="settings" />
           <MenuItem href="#">Item Submenu Four</MenuItem>
         </MenuItem>
-        <MenuItem
-          icon="arrow_right"
-          submenu
-          keyboardOverride="a"
-          ariaLabel="Actions"
-        >
+        <MenuItem icon="arrow_right" submenu ariaLabel="Actions">
           <MenuItem href="#">Item Submenu One</MenuItem>
           <MenuItem href="#">Item Submenu Two</MenuItem>
         </MenuItem>

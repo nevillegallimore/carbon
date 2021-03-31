@@ -193,15 +193,6 @@ MenuItem.propTypes = {
   showDropdownArrow: PropTypes.bool,
   /** set the colour variant for a menuType */
   variant: PropTypes.oneOf(["default", "alternate"]),
-  /** Either a keyboard override or child text must be provided to facilitate keyboard navigation. */
-  keyboardOverride: (props, propName, ...rest) => {
-    if (props.icon && !props.children && !props.keyboardOverride) {
-      return new Error(
-        "Either a keyboard override or child text must be provided to facilitate keyboard navigation."
-      );
-    }
-    return PropTypes.string(props, propName, ...rest);
-  },
   /** If no text is provided an ariaLabel should be given to facilitate accessibility. */
   ariaLabel: (props, ...rest) => {
     if (

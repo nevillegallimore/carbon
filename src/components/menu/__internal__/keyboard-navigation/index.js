@@ -11,10 +11,6 @@ function characterNavigation(inputString, focusableItems, currentFocusedIndex) {
     return node;
   };
   const getMenuText = (element) => {
-    if (element.keyboardOverride) {
-      return element.keyboardOverride;
-    }
-
     if (element.submenu) {
       return element.submenu;
     }

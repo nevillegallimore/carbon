@@ -20,7 +20,7 @@ describe("Menu keyboard navigation", () => {
     <MenuItem>Carrot</MenuItem>,
     <MenuItem>Broccoli</MenuItem>,
     <MenuItem submenu="submenu">Sub item</MenuItem>,
-    <MenuItem keyboardOverride="1">Parsnip</MenuItem>,
+    <MenuItem>Parsnip</MenuItem>,
     <MenuItem>
       <span>Rhubarb</span> <Box>and</Box> Ginger
     </MenuItem>,
@@ -46,13 +46,6 @@ describe("Menu keyboard navigation", () => {
       it("should return the correct index", () => {
         const result = characterNavigation("b", focusableItems, 0);
         expect(result).toEqual(1);
-      });
-    });
-
-    describe("when the keyboard override of a submenu passed in", () => {
-      it("should return the correct index", () => {
-        const result = characterNavigation("1", focusableItems, 0);
-        expect(result).toEqual(6);
       });
     });
 
