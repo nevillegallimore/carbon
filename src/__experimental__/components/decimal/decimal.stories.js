@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { number, select, boolean } from "@storybook/addon-knobs";
+import { number, select, boolean, text } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
 import Decimal from "./decimal.component";
 import { getCommonTextboxProps } from "../textbox/textbox.stories";
@@ -81,6 +81,36 @@ export const Default = () => {
   );
 };
 
+export const Post = () => {
+  const [state, setState] = useState("0.00");
+  const setValue = (ev) => {
+    action("onChange")(ev);
+    setState(ev.target.value.rawValue);
+  };
+  return (
+    <form method="POST" action={text("action", "")} target="_blank">
+      <p>
+        To test the hidden input go to{" "}
+        <a href="https://webhook.site">https://webhook.site</a> and generate a
+        new URL. Use this value for the <code>action</code> knob.
+      </p>
+      <Decimal
+        {...commonProps()}
+        {...getCommonTextboxProps()}
+        name={text("name", "my-decimal")}
+        value={state}
+        onChange={setValue}
+        onBlur={action("onBlur")}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
 Default.story = {
   name: "default",
+};
+
+Post.story = {
+  name: "post",
 };

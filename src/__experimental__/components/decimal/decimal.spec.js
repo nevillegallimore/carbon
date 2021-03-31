@@ -174,14 +174,14 @@ describe("Decimal", () => {
       ["0.00", {}],
       ["", { allowEmptyValue: true }],
     ])(
-      "entering a negative sign and blurring should revert to the defaultValue (%s)",
+      "entering a negative sign and blurring should not revert to the defaultValue (%s)",
       (expectedValue, props) => {
         const onBlur = jest.fn();
         render({ onBlur, defaultValue: "-1234.56", ...props });
         type("-");
         blur();
-        expect(value()).toBe(expectedValue);
-        expect(hiddenValue()).toBe(expectedValue);
+        expect(value()).toBe("-");
+        expect(hiddenValue()).toBe("-");
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
@@ -192,22 +192,12 @@ describe("Decimal", () => {
             },
           })
         );
-        expect(onChange).toHaveBeenCalledWith(
-          expect.objectContaining({
-            target: {
-              value: {
-                formattedValue: expectedValue,
-                rawValue: expectedValue,
-              },
-            },
-          })
-        );
         expect(onBlur).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
               value: {
-                formattedValue: expectedValue,
-                rawValue: expectedValue,
+                formattedValue: "-",
+                rawValue: "-",
               },
             },
           })
@@ -222,6 +212,16 @@ describe("Decimal", () => {
         expect(hiddenValue()).toBe("12345.654");
       });
 
+      it("triggers an error message if the precision value is greater than 15", () => {
+        jest.spyOn(global.console, "error").mockImplementation(() => {});
+        mount(<Decimal defaultValue="12345.654" precision={16} />);
+        // eslint-disable-next-line no-console
+        expect(console.error).toHaveBeenCalledWith(
+          "Warning: Failed prop type: Precision prop must be a number greater than 0 or equal to or less than 15.\n    in Decimal"
+        );
+        global.console.error.mockReset();
+      });
+
       it("allows the user to change the precision", () => {
         render({ defaultValue: "1234.56789", precision: 5 });
 
@@ -230,14 +230,14 @@ describe("Decimal", () => {
 
         setProps({ precision: 4 });
 
-        expect(value()).toBe("1,234.5679");
-        expect(hiddenValue()).toBe("1234.5679");
+        expect(value()).toBe("1234.56789");
+        expect(hiddenValue()).toBe("1234.56789");
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
               value: {
-                formattedValue: "1,234.5679",
-                rawValue: "1234.5679",
+                formattedValue: "1234.56789",
+                rawValue: "1234.56789",
               },
             },
           })
@@ -245,37 +245,37 @@ describe("Decimal", () => {
 
         setProps({ precision: 3 });
 
-        expect(value()).toBe("1,234.568");
-        expect(hiddenValue()).toBe("1234.568");
+        expect(value()).toBe("1234.56789");
+        expect(hiddenValue()).toBe("1234.56789");
 
         setProps({ precision: 2 });
 
-        expect(value()).toBe("1,234.57");
-        expect(hiddenValue()).toBe("1234.57");
+        expect(value()).toBe("1234.56789");
+        expect(hiddenValue()).toBe("1234.56789");
 
         setProps({ precision: 1 });
 
-        expect(value()).toBe("1,234.6");
-        expect(hiddenValue()).toBe("1234.6");
+        expect(value()).toBe("1234.56789");
+        expect(hiddenValue()).toBe("1234.56789");
 
         setProps({ precision: 2 });
 
-        expect(value()).toBe("1,234.60");
-        expect(hiddenValue()).toBe("1234.60");
+        expect(value()).toBe("1234.56789");
+        expect(hiddenValue()).toBe("1234.56789");
 
         onChange.mockReset();
 
         setProps({ precision: 3 });
 
-        expect(value()).toBe("1,234.600");
-        expect(hiddenValue()).toBe("1234.600");
+        expect(value()).toBe("1234.56789");
+        expect(hiddenValue()).toBe("1234.56789");
 
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
               value: {
-                formattedValue: "1,234.600",
-                rawValue: "1234.600",
+                formattedValue: "1234.56789",
+                rawValue: "1234.56789",
               },
             },
           })
@@ -640,8 +640,8 @@ describe("Decimal", () => {
           render({ onBlur, defaultValue: "-1234.56", ...props });
           type("-");
           blur();
-          expect(value()).toBe(formattedValue);
-          expect(hiddenValue()).toBe(rawValue);
+          expect(value()).toBe("-");
+          expect(hiddenValue()).toBe("-");
           expect(onChange).toHaveBeenCalledWith(
             expect.objectContaining({
               target: {
@@ -656,8 +656,8 @@ describe("Decimal", () => {
             expect.objectContaining({
               target: {
                 value: {
-                  formattedValue,
-                  rawValue,
+                  formattedValue: "-",
+                  rawValue: "-",
                 },
               },
             })
@@ -666,8 +666,8 @@ describe("Decimal", () => {
             expect.objectContaining({
               target: {
                 value: {
-                  formattedValue,
-                  rawValue,
+                  formattedValue: "-",
+                  rawValue: "-",
                 },
               },
             })
@@ -931,7 +931,7 @@ describe("Decimal", () => {
       setProps({ value: "FooBar" });
       blur();
       expect(value()).toBe("FooBar");
-      expect(hiddenValue()).toBe(null);
+      expect(hiddenValue()).toBe("FooBar");
       expect(onBlur).toHaveBeenCalled();
     });
 

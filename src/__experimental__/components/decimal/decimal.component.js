@@ -84,7 +84,7 @@ class Decimal extends React.Component {
     let shouldCallOnChange = false;
     this.setState(
       ({ value, visibleValue }) => {
-        if (!visibleValue || visibleValue === "-") {
+        if (!visibleValue) {
           shouldCallOnChange = value !== this.defaultValue;
           return {
             value: this.defaultValue,
@@ -151,12 +151,6 @@ class Decimal extends React.Component {
     return value;
   };
 
-  getSafePrecisionProp = () => {
-    const { precision } = this.props;
-
-    return precision;
-  };
-
   removeDelimiters = (value) => {
     const format = I18nHelper.format();
     const delimiter = `\\${format.delimiter}`;
@@ -172,12 +166,16 @@ class Decimal extends React.Component {
     if (this.isNaN(value)) {
       return this.state.value;
     }
-
     if (value === "") {
       return value;
     }
-
-    return I18nHelper.formatDecimal(value, this.getSafePrecisionProp());
+    const { separator } = I18nHelper.format();
+    const parts = value.split(separator);
+    // Don't format if there is more precision as formatDecimal performs rounding
+    if (parts[1] && parts[1].length > this.props.precision) {
+      return value;
+    }
+    return I18nHelper.formatDecimal(value, this.props.precision);
   };
 
   /**
@@ -202,11 +200,7 @@ class Decimal extends React.Component {
         />
         <input
           name={name}
-          value={
-            this.isNaN(this.toStandardDecimal(this.state.visibleValue))
-              ? null
-              : this.toStandardDecimal(this.state.visibleValue)
-          }
+          value={this.toStandardDecimal(this.state.visibleValue)}
           type="hidden"
           data-component="hidden-input"
         />
@@ -223,7 +217,18 @@ Decimal.propTypes = {
   /**
    * The decimal precision of the value in the input
    */
-  precision: PropTypes.number,
+  // eslint-disable-next-line consistent-return
+  precision: (props) => {
+    if (
+      !Number.isInteger(props.precision) ||
+      props.precision < 0 ||
+      props.precision > Decimal.maxPrecision
+    ) {
+      return new Error(
+        "Precision prop must be a number greater than 0 or equal to or less than 15."
+      );
+    }
+  },
   /**
    * The width of the input as a percentage
    */
