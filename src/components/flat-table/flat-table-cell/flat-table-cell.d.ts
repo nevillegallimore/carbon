@@ -9,6 +9,12 @@ export interface FlatTableCellProps extends SpacingProps {
   colspan?: number | string;
   /** Number of rows that a cell should span */
   rowspan?: number | string;
+  /** Column width, pass a number to set a fixed width in pixels */
+  width?: number;
+  /** Truncate the cell content if it overflows the  */
+  truncate?: boolean;
+  /** Title text to display if cell content truncates */
+  title?: string;
 }
 
 declare const FlatTableCell: React.FunctionComponent<FlatTableCellProps>;

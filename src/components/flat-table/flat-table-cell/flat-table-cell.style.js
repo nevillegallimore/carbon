@@ -4,19 +4,43 @@ import { space } from "styled-system";
 import baseTheme from "../../../style/themes/base";
 
 const StyledFlatTableCell = styled.td`
-  ${({ align, theme, rowSpan, leftPosition, makeCellSticky }) => css`
+  ${({
+    align,
+    theme,
+    rowSpan,
+    leftPosition,
+    makeCellSticky,
+    colWidth,
+    isTruncated,
+  }) => css`
     background-color: #fff;
     border-width: 0;
     border-bottom: 1px solid ${theme.table.secondary};
-    text-overflow: ellipsis;
     text-align: ${align};
     vertical-align: middle;
-    white-space: nowrap;
     padding: 0;
+
+    ${colWidth &&
+    css`
+      width: ${colWidth}px;
+    `}
 
     &&& {
       > div {
         box-sizing: border-box;
+
+        ${isTruncated &&
+        css`
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        `}
+
+        ${colWidth &&
+        css`
+          width: ${colWidth}px;
+        `}
+ 
         ${space}
       }
     }
