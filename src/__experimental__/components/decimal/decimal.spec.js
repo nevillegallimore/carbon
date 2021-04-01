@@ -230,13 +230,13 @@ describe("Decimal", () => {
 
         setProps({ precision: 4 });
 
-        expect(value()).toBe("1234.56789");
+        expect(value()).toBe("1,234.56789");
         expect(hiddenValue()).toBe("1234.56789");
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
               value: {
-                formattedValue: "1234.56789",
+                formattedValue: "1,234.56789",
                 rawValue: "1234.56789",
               },
             },
@@ -245,36 +245,36 @@ describe("Decimal", () => {
 
         setProps({ precision: 3 });
 
-        expect(value()).toBe("1234.56789");
+        expect(value()).toBe("1,234.56789");
         expect(hiddenValue()).toBe("1234.56789");
 
         setProps({ precision: 2 });
 
-        expect(value()).toBe("1234.56789");
+        expect(value()).toBe("1,234.56789");
         expect(hiddenValue()).toBe("1234.56789");
 
         setProps({ precision: 1 });
 
-        expect(value()).toBe("1234.56789");
+        expect(value()).toBe("1,234.56789");
         expect(hiddenValue()).toBe("1234.56789");
 
         setProps({ precision: 2 });
 
-        expect(value()).toBe("1234.56789");
+        expect(value()).toBe("1,234.56789");
         expect(hiddenValue()).toBe("1234.56789");
 
         onChange.mockReset();
 
         setProps({ precision: 3 });
 
-        expect(value()).toBe("1234.56789");
+        expect(value()).toBe("1,234.56789");
         expect(hiddenValue()).toBe("1234.56789");
 
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             target: {
               value: {
-                formattedValue: "1234.56789",
+                formattedValue: "1,234.56789",
                 rawValue: "1234.56789",
               },
             },
