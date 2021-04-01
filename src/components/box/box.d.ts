@@ -12,7 +12,7 @@ export interface BoxProps
     ColorProps,
     LayoutProps,
     FlexBoxProps {
-  as?: React.ElementType;
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
   overflowWrap?: "break-word" | "anywhere";
   scrollVariant?: "light" | "dark";
 }
