@@ -883,6 +883,7 @@ describe("Submenu component", () => {
       expect(wrapper.find(MenuItem).length).toEqual(4);
     });
   });
+
   describe("when it has Search as a child", () => {
     const renderWithSearch = (menuType, props) => {
       return mount(
@@ -907,8 +908,14 @@ describe("Submenu component", () => {
     };
 
     it("should not lose focus when enter key pressed", () => {
-      wrapper = renderWithSearch(true, "dark");
+      wrapper = renderWithSearch("dark");
+      const menuItem = wrapper
+        .find('[data-component="submenu-wrapper"]')
+        .find("a");
 
+      menuItem.getDOMNode().click();
+
+      wrapper.update();
       const searchInput = wrapper.find(StyledSearch).find("input");
 
       searchInput.getDOMNode().focus();
@@ -916,7 +923,6 @@ describe("Submenu component", () => {
       expect(searchInput).toBeFocused();
 
       act(() => {
-        wrapper.find(StyledSearch).at(0).props().onKeyDown(events.arrowUp);
         searchInput
           .getDOMNode()
           .dispatchEvent(new KeyboardEvent("keydown", events.enter));

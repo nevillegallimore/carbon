@@ -72,7 +72,7 @@ describe("Menu keyboard navigation", () => {
   });
 
   describe("menuKeyboardNavigation", () => {
-    describe("when in invalid key event passed in", () => {
+    describe("when an invalid key event passed in", () => {
       it("should return undefined", () => {
         const result = menuKeyboardNavigation(
           getMockEvent("shift"),
