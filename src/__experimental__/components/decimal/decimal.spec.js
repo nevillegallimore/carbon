@@ -901,20 +901,20 @@ describe("Decimal", () => {
       expect(onChange).not.toHaveBeenCalled();
     });
 
-    it("typing a negative value reverts to the default value", () => {
+    it("typing a negative value does not revert to the default value", () => {
       render({ value: "123" });
       setProps({ value: "-" });
       expect(onChange).not.toHaveBeenCalled();
-      expect(value()).toBe("0.00");
-      expect(hiddenValue()).toBe("0.00");
+      expect(value()).toBe("-");
+      expect(hiddenValue()).toBe("-");
     });
 
-    it("typing a negative value reverts to the default value (allowEmptyValue)", () => {
+    it("typing a negative value does not revert to the default value (allowEmptyValue)", () => {
       render({ value: "", allowEmptyValue: true });
       setProps({ value: "-" });
       expect(onChange).not.toHaveBeenCalled();
-      expect(value()).toBe("");
-      expect(hiddenValue()).toBe("");
+      expect(value()).toBe("-");
+      expect(hiddenValue()).toBe("-");
     });
 
     it("does not format a value that is not a number", () => {

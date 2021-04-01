@@ -8,7 +8,7 @@ import I18nHelper from "../../../utils/helpers/i18n";
 class Decimal extends React.Component {
   static maxPrecision = 15;
 
-  defaultValue = this.props.allowEmptyValue ? "" : "0.00";
+  emptyValue = this.props.allowEmptyValue ? "" : "0.00";
 
   constructor(props) {
     super(props);
@@ -16,7 +16,7 @@ class Decimal extends React.Component {
     const isControlled = this.isControlled();
     const value = isControlled
       ? this.getSafeValueProp(true)
-      : this.props.defaultValue || this.defaultValue;
+      : this.props.defaultValue || this.emptyValue;
 
     this.state = {
       value,
@@ -35,13 +35,9 @@ class Decimal extends React.Component {
     if (isControlled) {
       const valueProp = this.getSafeValueProp();
       if (valueProp !== prevState.value) {
-        const safeVisibleValue =
-          valueProp === "-"
-            ? this.formatValue(this.defaultValue)
-            : this.formatValue(valueProp);
         this.setState({
           value: valueProp,
-          visibleValue: safeVisibleValue,
+          visibleValue: this.formatValue(valueProp),
         });
       }
     }
@@ -85,10 +81,10 @@ class Decimal extends React.Component {
     this.setState(
       ({ value, visibleValue }) => {
         if (!visibleValue) {
-          shouldCallOnChange = value !== this.defaultValue;
+          shouldCallOnChange = value !== this.emptyValue;
           return {
-            value: this.defaultValue,
-            visibleValue: this.formatValue(this.defaultValue),
+            value: this.emptyValue,
+            visibleValue: this.formatValue(this.emptyValue),
           };
         }
         return {
@@ -164,7 +160,7 @@ class Decimal extends React.Component {
    */
   formatValue = (value) => {
     if (this.isNaN(value)) {
-      return this.state.value;
+      return value;
     }
     if (value === "") {
       return value;
