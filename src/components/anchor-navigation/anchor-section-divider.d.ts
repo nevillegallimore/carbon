@@ -7,6 +7,8 @@ export interface AnchorSectionDividerProps {
   styleOverride?: () => object | object;
 }
 
-declare function AnchorSectionDivider(attrs: StyledComponentProps<"div", {}, AnchorSectionDividerProps, "">): JSX.Element;
+declare function AnchorSectionDivider(
+  attrs: StyledComponentProps<"div", {}, AnchorSectionDividerProps, "">
+): JSX.Element;
 
 export default AnchorSectionDivider;
