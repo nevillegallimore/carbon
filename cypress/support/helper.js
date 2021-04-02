@@ -26,7 +26,7 @@ export function visitComponentUrl(
   env = "story"
 ) {
   cy.visit(prepareUrl(component, suffix, iFrameOnly, prefix, env));
-  if (!iFrameOnly) knobsTab().click();
+  if (!iFrameOnly) knobsTab().click({ force: true });
 }
 
 // eslint-disable-next-line max-params
