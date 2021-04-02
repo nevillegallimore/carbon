@@ -53,7 +53,7 @@ export function visitComponentUrlWithParameters(
 }
 
 export function clickActionsTab(iFrameOnly = false) {
-  if (!iFrameOnly) actionsTab().click();
+  if (!iFrameOnly) actionsTab().click({ force: true });
 }
 
 export function clickClear() {
