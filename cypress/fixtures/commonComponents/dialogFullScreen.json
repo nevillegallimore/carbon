@@ -22,8 +22,5 @@
   },
   "childrenSpecialCharacter": {
     "children": "!@#$%^*()_+-=~[];:.,?{}&\"'<>"
-  },
-  "stickyFooter": {
-    "Form component stickyFooter": true
   }
 }

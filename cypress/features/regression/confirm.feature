@@ -62,11 +62,6 @@ Feature: Confirm component
       | large        | 960              | sizeLarge       |
       | extra-large  | 1080             | sizeExtraLarge  |
 
-  @negative
-  Scenario: Close icon disabled
-    When I open default "Confirm Test" component in noIFrame with "confirm" json from "commonComponents" using "enableBackgroundUIFalse" object name
-    Then Close icon is not visible
-
   @positive
   Scenario Outline: <icon> icon on the header
     When I open default "Confirm Test" component in noIFrame with "confirm" json from "commonComponents" using "<nameOfObject>" object name
