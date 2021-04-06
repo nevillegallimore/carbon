@@ -4,22 +4,13 @@ Feature: Dialog component
   @positive
   Scenario Outline: Set height for Dialog to <height>
     When I open default "Dialog Test" component in noIFrame with "dialog" json from "commonComponents" using "<nameOfObject>" object name
-    Then Dialog height is set to <height>
+    Then Dialog height is set to "<height>"
     Examples:
       | height | nameOfObject |
       | 0      | height0      |
       | 1      | height1      |
       | 100    | height100    |
-
-  @negative
-  Scenario Outline: Set out of scope characters to <height>
-    When I open default "Dialog Test" component in noIFrame with "dialog" json from "commonComponents" using "<nameOfObject>" object name
-    Then Dialog height is not set to <height>
-    Examples:
-      | height                       | nameOfObject           |
-      | -1                           | height-1               |
-      | -10                          | height-10              |
-      | !@#$%^*()_+-=~[];:.,?{}&"'<> | heightSpecialCharacter |
+      | 1000   | height1000px |
 
   @positive
   Scenario Outline: Change Dialog component title to <title>
@@ -57,16 +48,6 @@ Feature: Dialog component
   Scenario: Disable ShowCloseIcon
     When I open default "Dialog Test" component in noIFrame with "dialog" json from "commonComponents" using "showCloseIconFalse" object name
     Then closeIcon is not visible
-
-  @positive
-  Scenario: Enable background UI
-    When I open default "Dialog Test" component in noIFrame with "dialog" json from "commonComponents" using "enableBackgroundUI" object name
-    Then Background UI is enabled
-
-  @positive
-  Scenario: Disable background UI
-    When I open default "Dialog Test" component in noIFrame with "dialog" json from "commonComponents" using "enableBackgroundUIFalse" object name
-    Then Background UI is disabled
 
   # Sticky form footer tests
   @positive

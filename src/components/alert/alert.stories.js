@@ -24,7 +24,6 @@ export const Default = () => {
   const title = text("title", "Attention");
   const subtitle = text("subtitle", "");
   const children = text("children", "This is an example of a alert.");
-  const enableBackgroundUI = boolean("enableBackgroundUI", false);
   const disableEscKey = boolean("disableEscKey", false);
   const ariaRole = text("ariaRole", "dialog");
   const height = text("height", "");
@@ -47,7 +46,6 @@ export const Default = () => {
       <Alert
         onCancel={handleCancel}
         title={title}
-        enableBackgroundUI={enableBackgroundUI}
         disableEscKey={disableEscKey}
         ariaRole={ariaRole}
         height={height}

@@ -4,20 +4,12 @@ import {
   dialogStickyFormFooter,
   openPreviewButton,
 } from "../../locators/dialog/index";
-import { backgroundUILocatorIFrame, dlsRoot } from "../../locators/index";
+import { backgroundUILocatorIFrame } from "../../locators/index";
 import { positionOfElement } from "../helper";
 import { dialogPreviewIFrame } from "../../locators/confirm";
 
-Then("Dialog height is set to {int}", (height) => {
-  dialogPreview()
-    .should("have.attr", "style")
-    .should("contain", `min-height: ${height}px`);
-});
-
-Then("Dialog height is not set to {word}", (height) => {
-  dialogPreview()
-    .should("have.attr", "style")
-    .should("not.contain", `min-height: ${height}px`);
+Then("Dialog height is set to {string}", (height) => {
+  dialogPreview().should("have.css", "min-height", `${height}px`);
 });
 
 Then("Dialog size property on preview is {string}", (size) => {
@@ -34,10 +26,6 @@ Then("Dialog is not visible in IFrame", () => {
 
 Then("Dialog stickyFormFooter is visible", () => {
   dialogStickyFormFooter().should("be.visible");
-});
-
-When("I click on {string} outside dialog", (position) => {
-  dlsRoot().click(position, { force: true });
 });
 
 When("I click on background {string} outside dialog", (position) => {

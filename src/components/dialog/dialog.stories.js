@@ -39,7 +39,6 @@ export const Default = () => {
     "showCloseIcon",
     Dialog.defaultProps.showCloseIcon
   );
-  const enableBackgroundUI = boolean("enableBackgroundUI", false);
   const disableEscKey = boolean("disableEscKey", false);
   const ariaRole = text("ariaRole", Dialog.defaultProps.ariaRole);
   const stickyFooter = boolean("Form component stickyFooter", false);
@@ -112,7 +111,6 @@ export const Default = () => {
         subtitle={subtitle}
         size={size}
         showCloseIcon={showCloseIcon}
-        enableBackgroundUI={enableBackgroundUI}
         disableEscKey={disableEscKey}
         ariaRole={ariaRole}
       >

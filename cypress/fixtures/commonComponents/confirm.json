@@ -56,12 +56,6 @@
   "sizeExtraLarge": {
     "size": "extra-large"
   },
-  "enableBackgroundUI":{
-    "enableBackgroundUI": true
-  },
-  "enableBackgroundUIFalse":{
-    "enableBackgroundUI": false
-  },
   "showCloseIconFalse": {
     "showCloseIcon": false
   },

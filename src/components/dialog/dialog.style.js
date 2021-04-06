@@ -19,6 +19,8 @@ const dialogSizes = {
 const DialogStyle = styled.div`
   background-color: #f2f5f6;
   box-shadow: ${({ theme }) => theme.shadows.depth3};
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 50%;
 
@@ -41,7 +43,7 @@ const DialogStyle = styled.div`
   ${({ height }) =>
     height &&
     css`
-      min-height: ${height - 40}px;
+      min-height: ${height}px;
 
       ${StyledForm} {
         min-height: inherit;
@@ -107,9 +109,11 @@ const DialogTitleStyle = styled.div`
 
 const DialogContentStyle = styled.div`
   box-sizing: border-box;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   width: 100%;
+  flex: 1;
 
   ${({ paddingBottom }) =>
     css`
@@ -129,12 +133,7 @@ const DialogContentStyle = styled.div`
 const DialogInnerContentStyle = styled.div`
   padding-top: 20px;
   position: relative;
-
-  ${({ height }) =>
-    height &&
-    css`
-    min-height: ${height - 40}px}
-  `}
+  flex: 1;
 `;
 
 DialogTitleStyle.defaultProps = {
