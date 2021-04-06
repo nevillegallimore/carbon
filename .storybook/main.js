@@ -14,7 +14,7 @@ module.exports = {
     "@storybook/addon-docs",
     "@storybook/addon-google-analytics",
     "@storybook/addon-links",
-    "@storybook/addon-postcss",
+    '@storybook/addon-postcss',
     "./theme-selector/register",
   ],
   webpackFinal: async (config, { configType }) => {
