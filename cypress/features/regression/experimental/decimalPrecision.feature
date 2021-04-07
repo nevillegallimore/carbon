@@ -9,7 +9,6 @@ Feature: Decimal component - precision
     Examples:
       | labelInput         | nameOfObject | fieldHelpOutput   |
       | 150                | precision0   | 150               |
-      | 1234567890.5       | precision1   | 1234567890.5      |
       | 0.12               | precision2   | 0.12              |
       | 0.123              | precision3   | 0.123             |
       | 111.9090           | precision4   | 111.9090          |

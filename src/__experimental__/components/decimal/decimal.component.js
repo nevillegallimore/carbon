@@ -167,10 +167,14 @@ class Decimal extends React.Component {
     }
     const { separator } = I18nHelper.format();
     const parts = value.split(separator);
+    if (this.props.precision === 0) {
+      return I18nHelper.formatDecimal(parts[0], this.props.precision);
+    }
     // Don't format if there is more precision as formatDecimal performs rounding
     if (parts[1] && parts[1].length > this.props.precision) {
       return this.state.visibleValue;
     }
+
     return I18nHelper.formatDecimal(value, this.props.precision);
   };
 

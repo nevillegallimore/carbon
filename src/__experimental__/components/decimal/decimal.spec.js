@@ -676,6 +676,12 @@ describe("Decimal", () => {
       );
 
       describe("precision", () => {
+        it("supports a precision of 0", () => {
+          render({ defaultValue: "12345", precision: 0 });
+          expect(value()).toBe("12.345");
+          expect(hiddenValue()).toBe("12345");
+        });
+
         it("has a default precision of 2 (rounding up)", () => {
           render({ defaultValue: "12345.655" });
           expect(value()).toBe("12.345,66");
