@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import { margin } from "styled-system";
 import baseTheme from "../../style/themes/base";
 
 const shimmer = keyframes`
@@ -18,6 +19,8 @@ const PreviewStyle = styled.span`
   & + & {
     margin-top: 3px;
   }
+
+  ${margin}
 `;
 
 PreviewStyle.defaultProps = {

@@ -1,7 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styledSystemPropTypes from "@styled-system/prop-types";
+
 import tagComponent from "../../utils/helpers/tags";
 import PreviewStyle from "./preview.style";
+import { filterStyledSystemMarginProps } from "../../style/utils";
+
+const marginPropTypes = filterStyledSystemMarginProps(
+  styledSystemPropTypes.space
+);
 
 const Preview = (props) => {
   if (isLoading(props.loading, props.children)) {
@@ -25,6 +32,7 @@ function isLoading(loading, children) {
 
 function createPreview(allProps, index) {
   const { height, lines } = allProps;
+  const marginProps = filterStyledSystemMarginProps(allProps);
   let { width } = allProps;
 
   if (!width && lines > 1 && lines === index) {
@@ -35,12 +43,14 @@ function createPreview(allProps, index) {
     <PreviewStyle
       key={index}
       style={{ height, width }}
+      {...marginProps}
       {...tagComponent("preview", allProps)}
     />
   );
 }
 
 Preview.propTypes = {
+  ...marginPropTypes,
   /** Children content to render in the component. */
   children: PropTypes.node,
   /** A custom height to be applied to the component. */
