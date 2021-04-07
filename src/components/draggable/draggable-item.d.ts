@@ -1,7 +1,13 @@
 import * as React from "react";
 
 export interface DraggableItemProps {
-  id: number | string;
+  /**
+   * The id of the `DraggableItem`.
+   *
+   * Use this prop to make `Draggable` works
+   */
+   id: number | string;
+  /** The content of the component. */
   children: React.ReactNode;
 }
 
