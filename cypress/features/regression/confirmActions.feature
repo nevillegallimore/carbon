@@ -7,6 +7,7 @@ Feature: Confirm component - in iFrame
   @positive
   Scenario: Disable escape key
     Given I check disableEscKey checkbox
+      And I wait 250
     When I hit ESC key
     Then Confirm dialog is visible
 
