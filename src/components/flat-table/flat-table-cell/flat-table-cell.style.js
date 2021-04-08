@@ -12,6 +12,7 @@ const StyledFlatTableCell = styled.td`
     makeCellSticky,
     colWidth,
     isTruncated,
+    expandable,
   }) => css`
     background-color: #fff;
     border-width: 0;
@@ -66,19 +67,21 @@ const StyledFlatTableCell = styled.td`
       left: ${leftPosition}px;
       position: sticky;
     `}
+
+    ${expandable &&
+    css`
+      white-space: nowrap;
+    `}
   `}
 `;
 
 const StyledCellContent = styled.div`
-  ${({ expandable }) => css`
-     {
-      ${expandable &&
-      css`
-        display: flex;
-        align-items: center;
-      `}
-    }
-  `}
+  ${({ expandable }) =>
+    expandable &&
+    css`
+      display: flex;
+      align-items: center;
+    `}
 `;
 
 StyledFlatTableCell.defaultProps = {

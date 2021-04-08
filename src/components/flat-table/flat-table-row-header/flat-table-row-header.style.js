@@ -4,7 +4,7 @@ import { space } from "styled-system";
 import baseTheme from "../../../style/themes/base";
 
 const StyledFlatTableRowHeader = styled.th`
-  ${({ align, theme, colWidth, leftPosition, isTruncated }) => css`
+  ${({ align, theme, colWidth, leftPosition, isTruncated, expandable }) => css`
     background-color: #fff;
     border: 1px solid ${theme.table.secondary};
     border-top: none;
@@ -45,6 +45,11 @@ const StyledFlatTableRowHeader = styled.th`
     &&& {
       left: ${leftPosition}px;
     }
+
+    ${expandable &&
+    css`
+      white-space: nowrap;
+    `}
   `}
 `;
 

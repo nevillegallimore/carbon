@@ -50,6 +50,7 @@ const FlatTableCell = ({
       onKeyDown={expandable && onKeyDown ? onKeyDown : undefined}
       colWidth={width}
       isTruncated={truncate}
+      expandable={expandable}
       {...rest}
     >
       <StyledCellContent

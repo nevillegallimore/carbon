@@ -31,6 +31,7 @@ const FlatTableRowHeader = ({
       tabIndex={expandable && onClick ? 0 : undefined}
       onKeyDown={expandable && onKeyDown ? onKeyDown : undefined}
       isTruncated={truncate}
+      expandable={expandable}
       {...rest}
     >
       <div
