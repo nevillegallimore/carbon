@@ -10,6 +10,7 @@ import { rootTagTest } from "../../utils/helpers/tags/tags-specs";
 import { StyledIcon, StyledCustomImg } from "./portrait.style";
 import PortraitInitials from "./portrait-initials.component";
 import PortraitGravatar from "./portrait-gravatar.component";
+import Tooltip from "../tooltip";
 
 const mockCanvasDataURL = "data:image/png";
 
@@ -159,6 +160,22 @@ describe("PortraitComponent", () => {
       testFail(<Portrait gravatar="example@example.com" initials="AB" />);
     });
 
+    it("triggers `onClick` function", () => {
+      const onClickFn = jest.fn();
+
+      const wrapper = shallow(
+        <Portrait
+          size="XXL"
+          shape="square"
+          darkBackground={false}
+          onClick={onClickFn}
+        />
+      );
+
+      wrapper.simulate("click");
+      expect(onClickFn).toHaveBeenCalledTimes(1);
+    });
+
     describe("sizes", () => {
       beforeEach(() => {
         spyOn(console, "error");
@@ -237,6 +254,15 @@ describe("PortraitComponent", () => {
       renderDLS(<PortraitInitials {...props} />);
       expect(console.error).toHaveBeenCalledTimes(0); // eslint-disable-line no-console
     });
+
+    it("triggers `onClick` function", () => {
+      const onClickFn = jest.fn();
+
+      const wrapper = shallow(<Portrait initials="AB" onClick={onClickFn} />);
+
+      wrapper.simulate("click");
+      expect(onClickFn).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe("render Gravatar", () => {
@@ -253,6 +279,17 @@ describe("PortraitComponent", () => {
 
     it("renders the Gravatar for the specified email address", () => {
       testSuccess(<Portrait gravatar={gravatarEmail} alt="foo" />);
+    });
+
+    it("triggers `onClick` function", () => {
+      const onClickFn = jest.fn();
+
+      const wrapper = shallow(
+        <Portrait gravatar={gravatarEmail} alt="foo" onClick={onClickFn} />
+      );
+
+      wrapper.simulate("click");
+      expect(onClickFn).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -287,6 +324,16 @@ describe("PortraitComponent", () => {
         size: "M",
         "data-element": "user-image",
       });
+    });
+
+    it("triggers `onClick` function", () => {
+      const onClickFn = jest.fn();
+
+      const wrapper = shallow(
+        <Portrait src={imageUrl} alt="foo" onClick={onClickFn} />
+      );
+      wrapper.simulate("click");
+      expect(onClickFn).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -351,5 +398,13 @@ describe("PortraitComponent", () => {
         rendered.root.findAllByProps({ "data-element": "user-image" }).length
       ).toBeGreaterThan(0);
     });
+  });
+
+  it("renders a `Tooltip` if tooltipMessage is passed", () => {
+    const wrapper = shallow(
+      <Portrait initials="AB" tooltipMessage="message" />
+    );
+
+    expect(wrapper.find(Tooltip).exists()).toBeTruthy();
   });
 });
